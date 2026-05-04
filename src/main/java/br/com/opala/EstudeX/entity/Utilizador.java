@@ -16,7 +16,7 @@ public class Utilizador
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "Nome")
-    private String Nome;
+    private String nome;
     @Column(name = "Cpf", columnDefinition = "CHAR(14)")
     private String cpf;
     @Column(name = "UF", length = 2, columnDefinition = "CHAR(2)")

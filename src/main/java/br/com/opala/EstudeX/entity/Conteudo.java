@@ -1,5 +1,7 @@
 package br.com.opala.EstudeX.entity;
 
+import br.com.opala.EstudeX.entity.Disciplina;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,12 +10,12 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "TBL_CONTEUDO")
-public class Conteudo
-{
+public class Conteudo {
+
     @Id
-    @Column(name = "idConteudo")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "idConteudo")
+    private Integer idConteudo;
 
     @Column(name = "Titulo")
     private String titulo;
@@ -21,9 +23,10 @@ public class Conteudo
     @Column(name = "Texto")
     private String texto;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "idDisciplina")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Disciplina disciplina;
 
-
+    // ⚠️ NÃO deve ter List<Duvida> aqui — causaria loop
 }
