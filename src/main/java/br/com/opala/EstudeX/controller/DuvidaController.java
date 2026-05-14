@@ -1,6 +1,8 @@
 package br.com.opala.EstudeX.controller;
 
+import br.com.opala.EstudeX.entity.Aluno;
 import br.com.opala.EstudeX.entity.Duvida;
+import br.com.opala.EstudeX.entity.Utilizador;
 import br.com.opala.EstudeX.repository.DuvidaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,5 +39,26 @@ public class DuvidaController {
     @PostMapping
     public ResponseEntity<Duvida> cadastrar(@RequestBody Duvida duvida) {
         return ResponseEntity.ok(repository.save(duvida));
+    }
+
+    @PutMapping("/{id}")
+    public Duvida alterar(@RequestBody Duvida duvida, @PathVariable Integer id)
+    {
+        if(id.equals(duvida.getIdDuvida()) && repository.findById(id).isPresent())
+        {
+            return repository.save(duvida);
+        }
+        return null;
+    }
+
+    @DeleteMapping("/{id}")
+    public void excluir(@PathVariable Integer id)
+    {
+        var duvida = repository.findById(id);
+
+        if(duvida.isPresent())
+        {
+            repository.deleteById(id);
+        }
     }
 }
