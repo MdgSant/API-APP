@@ -1,4 +1,4 @@
-/*package br.com.opala.EstudeX.controller;
+package br.com.opala.EstudeX.controller;
 
 import br.com.opala.EstudeX.entity.AtividadeResposta;
 import br.com.opala.EstudeX.repository.AtividadeRepository;
@@ -24,4 +24,3 @@ public class AtividadeRespostaController
         return repository.save(atividadeResposta);
     }
 }
-*/

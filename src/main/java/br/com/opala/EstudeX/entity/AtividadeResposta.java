@@ -1,6 +1,7 @@
-/*package br.com.opala.EstudeX.entity;
+package br.com.opala.EstudeX.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,15 +12,23 @@ import java.sql.Timestamp;
 @Setter
 @Entity
 @Table(name = "TBL_ATIVIDADERESPOSTA")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class AtividadeResposta
 {
     @Id
-    @Column(name = "idAtividade")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idAtividade;
-
     @Column(name = "idAtividadeAluno")
     private Integer idAtividadeAluno;
+
+    @ManyToOne
+    @JoinColumn(name = "idAluno")
+    @JsonIgnoreProperties({"serie", "senha", "cpf", "foto"})
+    private Aluno aluno;
+
+    @ManyToOne
+    @JoinColumn(name = "idAtividade")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Atividade atividade;
 
     @Column(name = "momentoInicio")
     private Timestamp momentoInicio;
@@ -28,10 +37,5 @@ public class AtividadeResposta
     private Timestamp momentoFim;
 
     @Column(name = "pontuacao")
-    private float pontucao;
-
-    @ManyToOne
-    @JoinColumn(name = "idAtividade")
-    private Atividade atividade;
+    private Float pontuacao;
 }
-*/
