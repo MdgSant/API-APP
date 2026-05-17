@@ -31,8 +31,8 @@ public class Atividade
     @Column(name = "idOrientador") // liga com a coluna do banco
     private Integer idOrientador; // guarda o ID do professor
 
-    /*@ManyToOne
+    @ManyToOne
     @JoinColumn(name = "idNivelDificuldade")
     private NivelDificuldade nivelDificuldade;
-     */
+
 }

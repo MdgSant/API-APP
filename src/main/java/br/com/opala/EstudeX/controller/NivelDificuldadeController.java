@@ -3,12 +3,13 @@ package br.com.opala.EstudeX.controller;
 import br.com.opala.EstudeX.entity.NivelDificuldade;
 import br.com.opala.EstudeX.repository.NivelDificuldadeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
+@CrossOrigin(origins = "*")
+@RequestMapping("/niveldificuldade")
 public class NivelDificuldadeController
 {
     @Autowired

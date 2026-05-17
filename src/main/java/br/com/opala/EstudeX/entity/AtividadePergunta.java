@@ -13,7 +13,7 @@ public class AtividadePergunta
     @Id
     @Column(name = "idPergunta")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer idPergunta;
 
     @Column(name = "Enunciado")
     private String enunciado;
@@ -22,7 +22,4 @@ public class AtividadePergunta
     @JoinColumn(name = "idAtividade")
     private Atividade atividade;
 
-    //@OneToOne
-    //@JoinColumn(name = "idNivelDificuldade")
-    //private NivelDificuldade nivelDificuldade;
 }
