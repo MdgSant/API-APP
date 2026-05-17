@@ -18,9 +18,32 @@ public class AtividadeController
     @GetMapping
     public List<Atividade> listar() {return repository.findAll();}
 
+    @GetMapping("/{id}")
+    public Atividade buscarPorId(@PathVariable Integer id) {
+        return repository.findById(id).orElseThrow();
+    }
+
     @PostMapping
     public Atividade cadastrar(@RequestBody Atividade atividade)
     {
         return repository.save(atividade);
+    }
+
+    @PatchMapping("/{id}/pontuacao")
+    public Atividade atualizarPontuacao(@PathVariable Integer id, @RequestParam Integer pontuacaoMaxima) {
+        Atividade atividade = repository.findById(id).orElseThrow();
+        atividade.setPontuacaoMaxima(pontuacaoMaxima);
+        return repository.save(atividade);
+    }
+
+    @DeleteMapping("/{id}")
+    public void excluir(@PathVariable Integer id)
+    {
+        var atividade = repository.findById(id);
+
+        if(atividade.isPresent())
+        {
+            repository.deleteById(id);
+        }
     }
 }
