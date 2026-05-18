@@ -25,6 +25,7 @@ public class AtividadePergunta
     private String enunciado;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "idAtividade")
     private Atividade atividade;
 

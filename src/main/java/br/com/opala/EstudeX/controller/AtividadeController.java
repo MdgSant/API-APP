@@ -1,7 +1,9 @@
 package br.com.opala.EstudeX.controller;
 
 import br.com.opala.EstudeX.entity.Atividade;
+import br.com.opala.EstudeX.entity.NivelDificuldade;
 import br.com.opala.EstudeX.repository.AtividadeRepository;
+import br.com.opala.EstudeX.repository.NivelDificuldadeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,9 @@ public class AtividadeController
     @Autowired
     private AtividadeRepository repository;
 
+    @Autowired
+    private NivelDificuldadeRepository nivelDificuldadeRepository;
+
     @GetMapping
     public List<Atividade> listar() {return repository.findAll();}
 
@@ -26,6 +31,18 @@ public class AtividadeController
     @PostMapping
     public Atividade cadastrar(@RequestBody Atividade atividade)
     {
+        System.out.println("idOrientador recebido: " + atividade.getIdOrientador());
+
+        atividade.setIdAtividade(null);
+
+        if (atividade.getNivelDificuldade() != null && atividade.getNivelDificuldade().getIdNivelDificuldade() != null)
+        {
+            NivelDificuldade nivel = nivelDificuldadeRepository
+                    .findById(atividade.getNivelDificuldade().getIdNivelDificuldade())
+                    .orElseThrow();
+            atividade.setNivelDificuldade(nivel);
+        }
+
         return repository.save(atividade);
     }
 

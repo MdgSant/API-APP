@@ -40,7 +40,7 @@ public class UtilizadorController
     @PutMapping("/{id}")
     public Utilizador alterar(@RequestBody Utilizador utilizador, @PathVariable Integer id)
     {
-        if(id == utilizador.getId() && buscarPorId(id).isPresent())
+        if(id.equals(utilizador.getIdUtilizador()) && buscarPorId(id).isPresent())
         {
             return repository.save(utilizador);
         }

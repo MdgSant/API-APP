@@ -46,9 +46,9 @@ public class AlunoController
     }//falar com o ronqui
 
     @PutMapping("/{id}")
-    public Aluno alterar(@RequestBody Aluno aluno, @PathVariable Integer id)//alterar status
+    public Aluno alterar(@RequestBody Aluno aluno, @PathVariable Integer id)
     {
-        if(id == aluno.getId() && buscarPorId(id).isPresent())
+        if(id.equals(aluno.getIdUtilizador()) && buscarPorId(id).isPresent())
         {
             return repository.save(aluno);
         }

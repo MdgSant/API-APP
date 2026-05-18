@@ -14,7 +14,7 @@ public class Utilizador
     @Id
     @Column(name = "idUtilizador")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer idUtilizador;
     @Column(name = "Nome")
     private String nome;
     @Column(name = "Cpf", columnDefinition = "CHAR(14)")

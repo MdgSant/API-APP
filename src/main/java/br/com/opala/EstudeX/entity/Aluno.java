@@ -12,10 +12,8 @@ import lombok.Setter;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Aluno extends Utilizador
 {
-    @Id
-    @Column(name = "idUtilizador")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    // ❌ Remova o @Id daqui — o ID já vem do Utilizador pai
+    // private Integer id;
 
     @Column(name = "xp")
     private Integer xp;
@@ -24,5 +22,4 @@ public class Aluno extends Utilizador
     @JoinColumn(name = "idSerie")
     @JsonIgnoreProperties({"alunos", "comunicados"})
     private Serie serie;
-
 }
