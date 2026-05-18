@@ -1,9 +1,10 @@
 package br.com.opala.EstudeX.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.type.descriptor.jdbc.SmallIntJdbcType;
 
 @Getter
 @Setter
@@ -20,7 +21,7 @@ public class PerguntasOpcoes
     private String descricao;
 
     @Column(name = "Correta")
-    private boolean  correta;
+    private boolean correta;
 
     @ManyToOne
     @JoinColumn(name = "idPergunta")
