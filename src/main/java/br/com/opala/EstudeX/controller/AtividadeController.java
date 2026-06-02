@@ -25,7 +25,10 @@ public class AtividadeController
 
     @GetMapping("/{id}")
     public Atividade buscarPorId(@PathVariable Integer id) {
-        return repository.findById(id).orElseThrow();
+        Atividade atividade = repository.findById(id).orElseThrow();
+        // Força o carregamento das perguntas e opções
+        atividade.getPerguntas().forEach(p -> p.getOpcoes().size());
+        return atividade;
     }
 
     @PostMapping
