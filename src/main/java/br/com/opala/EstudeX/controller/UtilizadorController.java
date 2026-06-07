@@ -1,8 +1,11 @@
 package br.com.opala.EstudeX.controller;
 
+import br.com.opala.EstudeX.dto.LoginRequest;
+import br.com.opala.EstudeX.dto.LoginResponse;
 import br.com.opala.EstudeX.entity.Utilizador;
 import br.com.opala.EstudeX.repository.UtilizadorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +16,7 @@ import java.util.Optional;
 @RequestMapping("/utilizadores")
 public class UtilizadorController
 {
+
     @Autowired
     private UtilizadorRepository repository;
 
@@ -31,10 +35,27 @@ public class UtilizadorController
         return null;
     }
 
-    @PostMapping
-    public Utilizador cadastrar(@RequestBody Utilizador utilizador)
-    {
-        return repository.save(utilizador);
+    @PostMapping("/registrar")
+    public ResponseEntity<Utilizador> registrar(@RequestBody Utilizador utilizador) {
+        try {
+            utilizador.setIdUtilizador(null); // força INSERT
+            return ResponseEntity.ok(repository.save(utilizador));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PostMapping("/autenticar")
+    public ResponseEntity<LoginResponse> autenticar(@RequestBody LoginRequest request) {
+        return repository.findByEmailAndSenha(request.getEmail(), request.getSenha())
+                .map(u -> ResponseEntity.ok(new LoginResponse(
+                        u.getIdUtilizador(),
+                        u.getNome(),
+                        "token-" + u.getIdUtilizador(),
+                        u.getTipoUtilizador().getId()
+                )))
+                .orElse(ResponseEntity.status(401).build());
     }
 
     @PutMapping("/{id}")

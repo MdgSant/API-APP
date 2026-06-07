@@ -27,7 +27,8 @@ public class Utilizador
     private Boolean foto;
     @Column(name = "SenhaHash", length = 25)
     private String senha;
-
+    @Column(name = "Email", length = 100, unique = true)
+    private String email;
 
     @ManyToOne
     @JoinColumn(name = "idTipoUtilizador")
