@@ -1,5 +1,7 @@
 package br.com.opala.EstudeX.entity;
 
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,20 +17,31 @@ public class Utilizador
     @Column(name = "idUtilizador")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idUtilizador;
+
     @Column(name = "Nome")
     private String nome;
-    @Column(name = "Cpf", columnDefinition = "CHAR(14)")
-    private String cpf;
-    @Column(name = "UF", length = 2, columnDefinition = "CHAR(2)")
-    private String uf;
-    @Column(name = "Cidade")
-    private String cidade;
-    @Column(name = "Foto")
-    private Boolean foto;
-    @Column(name = "SenhaHash", length = 25)
-    private String senha;
+
     @Column(name = "Email", length = 100, unique = true)
     private String email;
+
+    @Column(name = "Cpf", columnDefinition = "CHAR(14)")
+    private String cpf;
+
+    @Column(name = "Cidade")
+    private String cidade;
+
+    @Column(name = "UF", length = 2, columnDefinition = "CHAR(2)")
+    private String uf;
+
+    @Column(name = "Foto")
+    private Boolean foto;
+
+    @Column(name = "SenhaHash", length = 25)
+    private String senhaHash;
+
+    @Transient
+    @JsonProperty("idTipoUtilizador")
+    private Integer idTipoUtilizador;
 
     @ManyToOne
     @JoinColumn(name = "idTipoUtilizador")

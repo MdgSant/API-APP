@@ -2,6 +2,7 @@ package br.com.opala.EstudeX.controller;
 
 import br.com.opala.EstudeX.dto.LoginRequest;
 import br.com.opala.EstudeX.dto.LoginResponse;
+import br.com.opala.EstudeX.entity.TipoUtilizador;
 import br.com.opala.EstudeX.entity.Utilizador;
 import br.com.opala.EstudeX.repository.UtilizadorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,14 @@ public class UtilizadorController
     public ResponseEntity<Utilizador> registrar(@RequestBody Utilizador utilizador) {
         try {
             utilizador.setIdUtilizador(null); // força INSERT
+
+            // Converte o idTipoUtilizador recebido no JSON para o objeto TipoUtilizador
+            if (utilizador.getIdTipoUtilizador() != null) {
+                TipoUtilizador tipo = new TipoUtilizador();
+                tipo.setId(utilizador.getIdTipoUtilizador());
+                utilizador.setTipoUtilizador(tipo);
+            }
+
             return ResponseEntity.ok(repository.save(utilizador));
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,7 +57,7 @@ public class UtilizadorController
 
     @PostMapping("/autenticar")
     public ResponseEntity<LoginResponse> autenticar(@RequestBody LoginRequest request) {
-        return repository.findByEmailAndSenha(request.getEmail(), request.getSenha())
+        return repository.findByEmailAndSenhaHash(request.getEmail(), request.getSenha())
                 .map(u -> ResponseEntity.ok(new LoginResponse(
                         u.getIdUtilizador(),
                         u.getNome(),
