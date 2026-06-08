@@ -1,10 +1,12 @@
 package br.com.opala.EstudeX.controller;
 
 import br.com.opala.EstudeX.entity.Atividade;
+import br.com.opala.EstudeX.entity.Disciplina;
 import br.com.opala.EstudeX.entity.NivelDificuldade;
 import br.com.opala.EstudeX.repository.AtividadeRepository;
 import br.com.opala.EstudeX.repository.NivelDificuldadeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,21 +34,27 @@ public class AtividadeController
     }
 
     @PostMapping
-    public Atividade cadastrar(@RequestBody Atividade atividade)
-    {
-        System.out.println("idOrientador recebido: " + atividade.getIdOrientador());
+    public ResponseEntity<Atividade> cadastrar(@RequestBody Atividade atividade) {
+        try {
+            atividade.setIdAtividade(null); // só zera o id para forçar INSERT
 
-        atividade.setIdAtividade(null);
+            if (atividade.getIdDisciplina() != null) {
+                Disciplina d = new Disciplina();
+                d.setIdDisciplina(atividade.getIdDisciplina());
+                atividade.setDisciplina(d);
+            }
 
-        if (atividade.getNivelDificuldade() != null && atividade.getNivelDificuldade().getIdNivelDificuldade() != null)
-        {
-            NivelDificuldade nivel = nivelDificuldadeRepository
-                    .findById(atividade.getNivelDificuldade().getIdNivelDificuldade())
-                    .orElseThrow();
-            atividade.setNivelDificuldade(nivel);
+            if (atividade.getIdNivelDificuldade() != null) {
+                NivelDificuldade n = new NivelDificuldade();
+                n.setIdNivelDificuldade(atividade.getIdNivelDificuldade());
+                atividade.setNivelDificuldade(n);
+            }
+
+            return ResponseEntity.ok(repository.save(atividade));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
-
-        return repository.save(atividade);
     }
 
     @PatchMapping("/{id}/pontuacao")
