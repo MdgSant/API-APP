@@ -46,6 +46,12 @@ public class AtividadeRespostaController
         return ResponseEntity.ok(repository.findByAlunoIdUtilizador(idAluno));
     }
 
+    @GetMapping("/atividade/{idAtividade}")
+    public ResponseEntity<List<AtividadeResposta>> listarPorAtividade(@PathVariable Integer idAtividade)
+    {
+        return ResponseEntity.ok(repository.findByAtividadeIdAtividade(idAtividade));
+    }
+
     @PostMapping
     public AtividadeResposta cadastrar(@RequestBody AtividadeResposta atividadeResposta)
     {

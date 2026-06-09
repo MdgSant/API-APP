@@ -12,4 +12,6 @@ public interface AtividadeRespostaRepository extends JpaRepository<AtividadeResp
             Integer idAluno, Integer idAtividade);
 
     List<AtividadeResposta> findByAlunoIdUtilizador(Integer idAluno);
+
+    List<AtividadeResposta> findByAtividadeIdAtividade(Integer idAtividade);
 }
