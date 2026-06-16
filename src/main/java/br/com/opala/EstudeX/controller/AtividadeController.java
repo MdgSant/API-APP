@@ -1,5 +1,10 @@
 package br.com.opala.EstudeX.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import br.com.opala.EstudeX.dto.AtividadeResumoDTO;
 import br.com.opala.EstudeX.entity.Atividade;
 import br.com.opala.EstudeX.entity.Disciplina;
 import br.com.opala.EstudeX.entity.NivelDificuldade;
@@ -23,7 +28,22 @@ public class AtividadeController
     private NivelDificuldadeRepository nivelDificuldadeRepository;
 
     @GetMapping
-    public List<Atividade> listar() {return repository.findAll();}
+    public Page<AtividadeResumoDTO> listar(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size)
+    {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("idAtividade").descending());
+
+        return repository.findAll(pageable)
+                .map(a -> new AtividadeResumoDTO(
+                        a.getIdAtividade(),
+                        a.getTitulo(),
+                        a.getDataCriacao(),
+                        a.getPontuacaoMaxima(),
+                        a.getNivelDificuldade(),
+                        a.getDisciplina()
+                ));
+    }
 
     @GetMapping("/{id}")
     public Atividade buscarPorId(@PathVariable Integer id) {

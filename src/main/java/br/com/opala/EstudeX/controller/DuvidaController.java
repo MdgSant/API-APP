@@ -44,6 +44,11 @@ public class DuvidaController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/aluno/{idUtilizador}")
+    public ResponseEntity<List<Duvida>> listarPorAluno(@PathVariable Integer idUtilizador) {
+        return ResponseEntity.ok(repository.findByUtilizadorIdUtilizador(idUtilizador));
+    }
+
     @PostMapping
     public ResponseEntity<Duvida> cadastrar(@RequestBody Duvida duvida)
     {
